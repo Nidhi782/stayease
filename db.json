@@ -1,0 +1,220 @@
+{
+  "rooms": [
+    {
+      "id": "1",
+      "number": "A-101",
+      "type": "Double",
+      "hostel": "Boys",
+      "floor": 1,
+      "capacity": 2,
+      "occupied": 2,
+      "status": "Full",
+      "amenities": [
+        "WiFi",
+        "AC",
+        "Attached Bath"
+      ]
+    },
+    {
+      "id": "2",
+      "number": "A-102",
+      "type": "Triple",
+      "hostel": "Boys",
+      "floor": 1,
+      "capacity": 3,
+      "occupied": 2,
+      "status": "Available",
+      "amenities": [
+        "WiFi",
+        "Fan",
+        "Common Bath"
+      ]
+    },
+    {
+      "id": "3",
+      "number": "A-103",
+      "type": "Single",
+      "hostel": "Boys",
+      "floor": 1,
+      "capacity": 1,
+      "occupied": 1,
+      "status": "Full",
+      "amenities": [
+        "WiFi",
+        "AC",
+        "Attached Bath"
+      ]
+    },
+    {
+      "id": "4",
+      "number": "A-201",
+      "type": "Double",
+      "hostel": "Boys",
+      "floor": 2,
+      "capacity": 2,
+      "occupied": 0,
+      "status": "Vacant",
+      "amenities": [
+        "WiFi",
+        "Fan",
+        "Common Bath"
+      ]
+    },
+    {
+      "id": "5",
+      "number": "G-101",
+      "type": "Double",
+      "hostel": "Girls",
+      "floor": 1,
+      "capacity": 2,
+      "occupied": 2,
+      "status": "Full",
+      "amenities": [
+        "WiFi",
+        "AC",
+        "Attached Bath"
+      ]
+    },
+    {
+      "id": "6",
+      "number": "G-102",
+      "type": "Triple",
+      "hostel": "Girls",
+      "floor": 1,
+      "capacity": 3,
+      "occupied": 1,
+      "status": "Available",
+      "amenities": [
+        "WiFi",
+        "Fan",
+        "Common Bath"
+      ]
+    },
+    {
+      "id": "7",
+      "number": "G-201",
+      "type": "Single",
+      "hostel": "Girls",
+      "floor": 2,
+      "capacity": 1,
+      "occupied": 0,
+      "status": "Vacant",
+      "amenities": [
+        "WiFi",
+        "AC",
+        "Attached Bath"
+      ]
+    },
+    {
+      "id": "8",
+      "number": "G-204",
+      "type": "Double",
+      "hostel": "Girls",
+      "floor": 2,
+      "capacity": 2,
+      "occupied": 2,
+      "status": "Full",
+      "amenities": [
+        "WiFi",
+        "Fan",
+        "Attached Bath"
+      ]
+    }
+  ],
+  "students": [
+    {
+      "id": "1",
+      "name": "Rahul Sharma",
+      "room": "A-101",
+      "hostel": "Boys",
+      "feeStatus": "Paid"
+    },
+    {
+      "id": "2",
+      "name": "Priya Singh",
+      "room": "G-204",
+      "hostel": "Girls",
+      "feeStatus": "Partial"
+    },
+    {
+      "id": "3",
+      "name": "Amit Kumar",
+      "room": "A-103",
+      "hostel": "Boys",
+      "feeStatus": "Pending"
+    },
+    {
+      "id": "4",
+      "name": "Sneha Patel",
+      "room": "G-101",
+      "hostel": "Girls",
+      "feeStatus": "Partial"
+    },
+    {
+      "id": "5",
+      "name": "Vikram Yadav",
+      "room": "A-205",
+      "hostel": "Boys",
+      "feeStatus": "Paid"
+    }
+  ],
+  "complaints": [
+    {
+      "id": "1",
+      "title": "Leaking pipe in bathroom",
+      "room": "A-101",
+      "hostel": "Boys",
+      "status": "Open",
+      "date": "2026-04-10"
+    },
+    {
+      "id": "2",
+      "title": "AC not working",
+      "room": "G-101",
+      "hostel": "Girls",
+      "status": "Resolved",
+      "date": "2026-04-09"
+    },
+    {
+      "id": "3",
+      "title": "Broken window latch",
+      "room": "A-102",
+      "hostel": "Boys",
+      "status": "Open",
+      "date": "2026-04-11"
+    },
+    {
+      "id": "4",
+      "title": "Water heater issue",
+      "room": "G-102",
+      "hostel": "Girls",
+      "status": "Resolved",
+      "date": "2026-04-12"
+    },
+    {
+      "id": "5",
+      "title": "WiFi connectivity problem",
+      "room": "A-201",
+      "hostel": "Boys",
+      "status": "Resolved",
+      "date": "2026-04-08"
+    },
+    {
+      "id": "6",
+      "title": "Ceiling fan making noise",
+      "room": "G-204",
+      "hostel": "Girls",
+      "status": "Open",
+      "date": "2026-04-13"
+    },
+    {
+      "title": "AC Servicing",
+      "room": "6-B 508",
+      "hostel": "Girls",
+      "status": "Resolved",
+      "date": "2026-04-14",
+      "id": "ymhja8zuXg0"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

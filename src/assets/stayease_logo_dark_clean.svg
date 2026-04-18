@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 110" width="320" height="110">
+  <defs>
+    <linearGradient id="bGd" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a3d30"/>
+      <stop offset="100%" stop-color="#0f2820"/>
+    </linearGradient>
+    <linearGradient id="rGd" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5DCAA5"/>
+      <stop offset="100%" stop-color="#1D9E75"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="320" height="110" fill="#0d1f17" rx="12"/>
+  <!-- subtle grid -->
+  <line x1="0" y1="36" x2="320" y2="36" stroke="#1a3d30" stroke-width="0.5"/>
+  <line x1="0" y1="72" x2="320" y2="72" stroke="#1a3d30" stroke-width="0.5"/>
+  <line x1="160" y1="0" x2="160" y2="110" stroke="#1a3d30" stroke-width="0.5"/>
+
+  <!-- Left page -->
+  <path d="M30 88 Q30 48 62 42 L62 92 Q48 90 30 88 Z" fill="url(#bGd)" stroke="#1D9E75" stroke-width="1.5"/>
+  <!-- Right page -->
+  <path d="M94 88 Q94 48 62 42 L62 92 Q76 90 94 88 Z" fill="url(#bGd)" stroke="#1D9E75" stroke-width="1.5"/>
+  <!-- Spine -->
+  <line x1="62" y1="42" x2="62" y2="92" stroke="#1D9E75" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+  <!-- Text lines left page -->
+  <line x1="38" y1="60" x2="56" y2="58" stroke="#5DCAA5" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+  <line x1="38" y1="68" x2="56" y2="66" stroke="#5DCAA5" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="38" y1="76" x2="56" y2="74" stroke="#5DCAA5" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+  <!-- Text lines right page -->
+  <line x1="68" y1="58" x2="86" y2="60" stroke="#5DCAA5" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+  <line x1="68" y1="66" x2="86" y2="68" stroke="#5DCAA5" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  <line x1="68" y1="74" x2="86" y2="76" stroke="#5DCAA5" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>
+
+  <!-- Rooftop -->
+  <polygon points="30,58 62,24 94,58" fill="url(#rGd)"/>
+  <line x1="62" y1="24" x2="62" y2="58" stroke="white" stroke-width="1" opacity="0.2"/>
+  <rect x="42" y="30" width="5" height="10" rx="1" fill="#1D9E75"/>
+  <rect x="77" y="34" width="4" height="8" rx="1" fill="#1D9E75"/>
+  <rect x="59" y="42" width="6" height="5" rx="1" fill="white" opacity="0.5"/>
+  <!-- Base line -->
+  <line x1="24" y1="92" x2="100" y2="92" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Glow -->
+  <ellipse cx="62" cy="92" rx="32" ry="5" fill="#1D9E75" opacity="0.12"/>
+
+  <!-- WORDMARK only -->
+  <text x="116" y="70" font-family="Georgia,serif" font-size="40" font-weight="400" letter-spacing="-1">
+    <tspan fill="#ffffff">Stay</tspan><tspan fill="#5DCAA5">Ease</tspan>
+  </text>
+</svg>
