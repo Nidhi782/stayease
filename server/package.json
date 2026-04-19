@@ -1,6 +1,7 @@
 {
   "name": "stayease-server",
   "version": "1.0.0",
+  "type": "module",
   "description": "StayEase Express + MySQL backend",
   "main": "index.js",
   "scripts": {
