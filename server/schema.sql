@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS rooms (
   capacity  INT          NOT NULL,
   occupied  INT          NOT NULL DEFAULT 0,
   status    ENUM('Full','Available','Vacant') NOT NULL DEFAULT 'Vacant',
-  amenities JSON         NOT NULL DEFAULT ('[]')
+  amenities TEXT         NOT NULL
 );
 
 -- Table 3: Students
