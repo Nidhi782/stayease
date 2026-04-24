@@ -47,6 +47,13 @@ function Login() {
     }
   }
 
+  // ── Google OAuth ───────────────────────────────────────────
+  function handleGoogleLogin() {
+    const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api')
+      .replace('/api', '')
+    window.location.href = `${apiBase}/api/auth/google`
+  }
+
   return (
     <div className="min-h-screen bg-[#f0faf5] flex items-center justify-center px-4">
 
@@ -223,7 +230,11 @@ function Login() {
           </div>
 
           {/* Google Button */}
-          <button className="w-full border border-gray-200 rounded-xl py-3 text-sm font-medium text-[#1a1a2e] hover:bg-[#f0faf5] transition flex items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="w-full border border-gray-200 rounded-xl py-3 text-sm font-medium text-[#1a1a2e] hover:bg-[#f0faf5] transition flex items-center justify-center gap-2"
+          >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"

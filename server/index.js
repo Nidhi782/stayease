@@ -1,8 +1,10 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import passport from 'passport'
 
 import authRouter from './routes/auth.js'
+import googleAuthRouter from './routes/googleAuth.js'
 import roomsRouter from './routes/rooms.js'
 import studentsRouter from './routes/students.js'
 import complaintsRouter from './routes/complaints.js'
@@ -13,14 +15,28 @@ const PORT = process.env.PORT || 5000
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'], // React Vite dev server
+  origin: (origin, callback) => {
+    const allowed = [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://localhost:5175',
+    ]
+    // Allow any Vercel deployment or no origin (e.g. curl/Postman)
+    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true,
 }))
 app.use(express.json())
+app.use(passport.initialize())
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 // Public routes — no JWT required
-app.use('/api/auth', authRouter)
+app.use('/api/auth',        authRouter)
+app.use('/api/auth/google', googleAuthRouter)
 
 // Protected routes — JWT required on every request
 app.use('/api/rooms',      verifyToken, roomsRouter)

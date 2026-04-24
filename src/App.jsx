@@ -11,6 +11,7 @@ import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import Rooms from './pages/Rooms'
 import Complaints from './pages/Complaints'
+import AuthCallback from './pages/AuthCallback'
 import NotFound from './pages/NotFound'
 
 // ── Inner component so useLocation is inside BrowserRouter ──
@@ -47,6 +48,7 @@ function AnimatedRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
