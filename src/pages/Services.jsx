@@ -2,24 +2,19 @@
 // Hostel services page: Laundry, Transport, and fee structure overview.
 
 const FEE_PLANS = [
-  { type: 'Double AC',        fee: 145000, icon: '❄️', popular: true },
-  { type: 'Double Non-AC',    fee: 130000, icon: '🌬️', popular: false },
-  { type: 'Triple AC',        fee: 135000, icon: '❄️', popular: false },
-  { type: 'Triple Non-AC',    fee: 115000, icon: '🌬️', popular: false },
+  { type: 'Double AC', fee: 145000, icon: '❄️', popular: true },
+  { type: 'Double Non-AC', fee: 130000, icon: '🌬️', popular: false },
+  { type: 'Triple AC', fee: 135000, icon: '❄️', popular: false },
+  { type: 'Triple Non-AC', fee: 115000, icon: '🌬️', popular: false },
 ]
 
 const TRANSPORT_ROUTES = [
-  { route: 'City Center ↔ Hostel',     time: '7:00 AM & 6:00 PM',   days: 'Mon–Sat' },
-  { route: 'Railway Station ↔ Hostel', time: '8:00 AM & 8:00 PM',   days: 'Daily' },
-  { route: 'Market / Mall Shuttle',    time: '11:00 AM & 5:00 PM',  days: 'Sat–Sun' },
-  { route: 'College / University',     time: '8:30 AM & 4:30 PM',   days: 'Mon–Fri' },
+  { route: 'City Center ↔ Hostel', time: '7:00 AM & 6:00 PM', days: 'Mon–Sat' },
+  { route: 'Railway Station ↔ Hostel', time: '8:00 AM & 8:00 PM', days: 'Daily' },
+  { route: 'Market / Mall Shuttle', time: '11:00 AM & 5:00 PM', days: 'Sat–Sun' },
+  { route: 'College / University', time: '8:30 AM & 4:30 PM', days: 'Mon–Fri' },
 ]
 
-const LAUNDRY_PLANS = [
-  { plan: 'Basic',    items: '10 items/week',  price: '₹500/month',  features: ['Wash & Dry', 'Folding', '48h turnaround'] },
-  { plan: 'Standard', items: '20 items/week',  price: '₹900/month',  features: ['Wash, Dry & Iron', 'Folding', '24h turnaround', 'Stain treatment'] },
-  { plan: 'Premium',  items: 'Unlimited',      price: '₹1,400/month',features: ['Wash, Dry & Iron', 'Dry cleaning', 'Same-day delivery', 'Wardrobe management'] },
-]
 
 function fmt(n) {
   return '₹' + n.toLocaleString('en-IN')
@@ -43,14 +38,13 @@ function Services() {
 
         {/* ── Fee Structure ── */}
         <section>
-          <SectionHeader icon="💰" title="Fee Structure" subtitle="10-month academic session · Pre-booking: ₹10,000 (adjusted in 1st installment)" />
+          <SectionHeader icon="💰" title="Fee Structure" subtitle="10-month academic session · Pre-booking: ₹10,000 (adjusted in 3rd installment)" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-6">
             {FEE_PLANS.map(p => (
               <div
                 key={p.type}
-                className={`rounded-2xl p-6 shadow-sm border-2 relative ${
-                  p.popular ? 'border-[#1D9E75] bg-white' : 'border-gray-100 bg-white'
-                }`}
+                className={`rounded-2xl p-6 shadow-sm border-2 relative ${p.popular ? 'border-[#1D9E75] bg-white' : 'border-gray-100 bg-white'
+                  }`}
               >
                 {p.popular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#1D9E75] text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -64,19 +58,19 @@ function Services() {
                 <div className="mt-4 space-y-2 text-xs text-[#2d4a3e]">
                   <div className="flex justify-between border-t pt-2">
                     <span>Full payment (5% off)</span>
-                    <span className="font-bold text-[#1D9E75]">{fmt(Math.round(p.fee * 0.95 - 10000))}</span>
+                    <span className="font-bold text-[#1D9E75]">{fmt(Math.round(p.fee * 0.95) - 10000)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Installment 1 (Day 1)</span>
-                    <span className="font-bold">{fmt(Math.round(p.fee / 3) - 10000)}</span>
+                    <span className="font-bold">{fmt(Math.round(p.fee / 3))}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Installment 2 (Day 46)</span>
                     <span className="font-bold">{fmt(Math.round(p.fee / 3))}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Installment 3 (Day 91)</span>
-                    <span className="font-bold">{fmt(Math.round(p.fee / 3))}</span>
+                    <span>Installment 3 (Day 91) <span className="text-[#1D9E75] font-normal">−₹10k pre-booking</span></span>
+                    <span className="font-bold">{fmt(Math.round(p.fee / 3) - 10000)}</span>
                   </div>
                 </div>
               </div>
@@ -89,7 +83,7 @@ function Services() {
               <p className="text-2xl mb-2">🎁</p>
               <h4 className="font-bold text-lg">Referral Bonus</h4>
               <p className="text-sm opacity-90 mt-1">
-                Refer a friend who takes admission and earn <strong>₹2,000 credit</strong> 
+                Refer a friend who takes admission and earn <strong>₹2,000 credit</strong>
                 adjusted in your next installment. No limit on referrals!
               </p>
             </div>
@@ -98,7 +92,7 @@ function Services() {
               <h4 className="font-bold text-lg">Pre-Booking</h4>
               <p className="text-sm opacity-90 mt-1">
                 Secure your room with a <strong>₹10,000 pre-booking amount</strong>.
-                This is fully adjusted in your first installment — no extra cost!
+                This is fully adjusted in your <strong>3rd installment</strong> — no extra cost!
               </p>
             </div>
           </div>
@@ -106,27 +100,24 @@ function Services() {
 
         {/* ── Laundry ── */}
         <section>
-          <SectionHeader icon="👕" title="Laundry Service" subtitle="In-house professional laundry — never worry about washing clothes again" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
-            {LAUNDRY_PLANS.map((p, i) => (
-              <div key={p.plan} className={`rounded-2xl p-6 shadow-sm bg-white border-2 ${i === 1 ? 'border-[#1D9E75]' : 'border-gray-100'}`}>
-                {i === 1 && <span className="bg-[#1D9E75] text-white text-xs font-bold px-3 py-1 rounded-full">Recommended</span>}
-                <h3 className="font-bold text-[#1a1a2e] text-xl mt-3">{p.plan}</h3>
-                <p className="text-sm text-gray-500 mb-2">{p.items}</p>
-                <p className="text-2xl font-extrabold text-[#1D9E75] mb-4">{p.price}</p>
-                <ul className="space-y-2">
-                  {p.features.map(f => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-[#2d4a3e]">
-                      <span className="text-[#1D9E75]">✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
+          <SectionHeader icon="👕" title="Laundry Service" subtitle="Fully included in your hostel fee — no extra charges" />
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { icon: '🧺', title: 'Wash & Dry',   desc: 'Regular clothes washed and dried daily. Bags collected from room door.' },
+              { icon: '👔', title: 'Iron & Fold',   desc: 'All clothes ironed and neatly folded before return to your room.' },
+              { icon: '✨', title: 'Special Care',  desc: 'Stain treatment and delicate fabric handling available on request.' },
+            ].map(f => (
+              <div key={f.title} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex gap-4">
+                <div className="text-3xl">{f.icon}</div>
+                <div>
+                  <h4 className="font-bold text-[#1a1a2e]">{f.title}</h4>
+                  <p className="text-sm text-gray-500 mt-1">{f.desc}</p>
+                </div>
               </div>
             ))}
           </div>
-          <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl px-5 py-3 text-sm text-blue-800">
-            📌 Laundry bags are collected from your room door. Clean clothes are returned to your room. 
-            Special care for delicate fabrics available on request.
+          <div className="mt-4 bg-green-50 border border-green-200 rounded-xl px-5 py-3 text-sm text-green-800">
+            ✅ Laundry is <strong>100% included</strong> in your 10-month session fee. Clothes are picked up and returned to your room. 24h turnaround on weekdays.
           </div>
         </section>
 
@@ -169,15 +160,15 @@ function Services() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mt-6">
             {[
               { icon: '📶', name: 'High-Speed WiFi', note: '100 Mbps · 24/7' },
-              { icon: '🔒', name: 'CCTV Security',   note: '24/7 surveillance' },
-              { icon: '💧', name: 'RO Water',         note: 'Purified drinking water' },
-              { icon: '⚡', name: 'Power Backup',     note: 'Uninterrupted supply' },
-              { icon: '🏋️', name: 'Gym',              note: 'Fully equipped' },
-              { icon: '📚', name: 'Study Room',       note: 'Quiet study area' },
-              { icon: '🎮', name: 'Recreation Room',  note: 'Games & relaxation' },
-              { icon: '🏥', name: 'Medical Support',  note: 'On-call doctor' },
-              { icon: '🧹', name: 'Housekeeping',     note: 'Daily room cleaning' },
-              { icon: '☕', name: 'Common Kitchen',   note: '24/7 access' },
+              { icon: '🔒', name: 'CCTV Security', note: '24/7 surveillance' },
+              { icon: '💧', name: 'RO Water', note: 'Purified drinking water' },
+              { icon: '⚡', name: 'Power Backup', note: 'Uninterrupted supply' },
+              { icon: '🏋️', name: 'Gym', note: 'Fully equipped' },
+              { icon: '📚', name: 'Study Room', note: 'Quiet study area' },
+              { icon: '🎮', name: 'Recreation Room', note: 'Games & relaxation' },
+              { icon: '🏥', name: 'Medical Support', note: 'On-call doctor' },
+              { icon: '🧹', name: 'Housekeeping', note: 'Daily room cleaning' },
+              { icon: '☕', name: 'Common Kitchen', note: '24/7 access' },
             ].map(a => (
               <div key={a.name} className="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100 hover:border-[#1D9E75] transition-colors">
                 <div className="text-3xl mb-2">{a.icon}</div>

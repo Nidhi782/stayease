@@ -8,7 +8,10 @@ import googleAuthRouter from './routes/googleAuth.js'
 import roomsRouter from './routes/rooms.js'
 import studentsRouter from './routes/students.js'
 import complaintsRouter from './routes/complaints.js'
+import outpassRouter from './routes/outpass.js'
+import attendanceRouter from './routes/attendance.js'
 import { verifyToken } from './middleware/auth.js'
+import { startSessionChecker } from './jobs/sessionChecker.js'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -43,6 +46,8 @@ app.get('/api/rooms',      roomsRouter)   // public read
 app.use('/api/rooms',      verifyToken, roomsRouter)
 app.use('/api/students',   verifyToken, studentsRouter)
 app.use('/api/complaints', verifyToken, complaintsRouter)
+app.use('/api/outpass',    verifyToken, outpassRouter)
+app.use('/api/attendance', verifyToken, attendanceRouter)
 
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
@@ -64,4 +69,5 @@ app.use((err, req, res, _next) => {
 app.listen(PORT, () => {
   console.log(`✅  StayEase API running at http://localhost:${PORT}`)
   console.log(`    Health check → http://localhost:${PORT}/api/health`)
+  startSessionChecker()   // daily session expiry + email alerts
 })
