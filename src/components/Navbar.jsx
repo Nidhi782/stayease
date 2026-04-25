@@ -68,6 +68,26 @@ function Navbar() {
           Rooms
         </Link>
         <Link
+          to="/mess"
+          className={`transition font-medium pb-0.5 ${
+            isActive('/mess')
+              ? 'text-[#1D9E75] border-b-2 border-[#1D9E75]'
+              : 'text-[#1a1a2e] hover:text-[#1D9E75]'
+          }`}
+        >
+          Mess
+        </Link>
+        <Link
+          to="/services"
+          className={`transition font-medium pb-0.5 ${
+            isActive('/services')
+              ? 'text-[#1D9E75] border-b-2 border-[#1D9E75]'
+              : 'text-[#1a1a2e] hover:text-[#1D9E75]'
+          }`}
+        >
+          Services
+        </Link>
+        <Link
           to="/complaints"
           className={`transition font-medium pb-0.5 ${
             isActive('/complaints')

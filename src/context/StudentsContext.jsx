@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import client from '../api/client'
+import { useAuth } from './AuthContext'
 
 // ── Context ────────────────────────────────────────────────
 const StudentsContext = createContext(null)
@@ -7,8 +8,9 @@ const StudentsContext = createContext(null)
 // ── Provider ───────────────────────────────────────────────
 export function StudentsProvider({ children }) {
   const [students, setStudents] = useState([])
-  const [loading, setLoading]   = useState(true)
+  const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState(null)
+  const { isLoggedIn }          = useAuth()
 
   // ── Fetch all students from API ──────────────────────────
   async function fetchStudents() {
@@ -70,10 +72,11 @@ export function StudentsProvider({ children }) {
     }
   }
 
-  // ── Load on mount ────────────────────────────────────────
+  // ── Load when user logs in ───────────────────────────────
   useEffect(() => {
-    fetchStudents()
-  }, [])
+    if (isLoggedIn) fetchStudents()
+    else { setStudents([]); setLoading(false) }
+  }, [isLoggedIn])
 
   return (
     <StudentsContext.Provider value={{ students, loading, error, addStudent, updateStudent, deleteStudent }}>

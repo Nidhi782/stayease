@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import client from '../api/client'
+import { useAuth } from './AuthContext'
 
 // ── Context ────────────────────────────────────────────────
 const ComplaintsContext = createContext(null)
@@ -7,8 +8,9 @@ const ComplaintsContext = createContext(null)
 // ── Provider ───────────────────────────────────────────────
 export function ComplaintsProvider({ children }) {
   const [complaints, setComplaints] = useState([])
-  const [loading, setLoading]       = useState(true)
+  const [loading, setLoading]       = useState(false)
   const [error, setError]           = useState(null)
+  const { isLoggedIn }              = useAuth()
 
   // ── Fetch ────────────────────────────────────────────────
   async function fetchComplaints() {
@@ -65,10 +67,11 @@ export function ComplaintsProvider({ children }) {
     }
   }
 
-  // ── Load on mount ────────────────────────────────────────
+  // ── Load when user logs in ───────────────────────────────
   useEffect(() => {
-    fetchComplaints()
-  }, [])
+    if (isLoggedIn) fetchComplaints()
+    else { setComplaints([]); setLoading(false) }
+  }, [isLoggedIn])
 
   return (
     <ComplaintsContext.Provider

@@ -12,6 +12,8 @@ import Dashboard from './pages/Dashboard'
 import Rooms from './pages/Rooms'
 import Complaints from './pages/Complaints'
 import AuthCallback from './pages/AuthCallback'
+import MessMenu from './pages/MessMenu'
+import Services from './pages/Services'
 import NotFound from './pages/NotFound'
 
 // ── Inner component so useLocation is inside BrowserRouter ──
@@ -32,14 +34,9 @@ function AnimatedRoutes() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/rooms"
-          element={
-            <ProtectedRoute>
-              <Rooms />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/rooms" element={<Rooms />} />
+        <Route path="/mess" element={<MessMenu />} />
+        <Route path="/services" element={<Services />} />
         <Route
           path="/complaints"
           element={

@@ -88,7 +88,7 @@ export function RoomsProvider({ children }) {
     return rooms.some((r) => r.number.toLowerCase() === number.trim().toLowerCase())
   }
 
-  // ── Load on mount ────────────────────────────────────────
+  // ── Load on mount (rooms are public) ───────────────────────────
   useEffect(() => {
     fetchRooms()
   }, [])

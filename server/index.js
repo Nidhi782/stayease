@@ -37,6 +37,7 @@ app.use(passport.initialize())
 // Public routes — no JWT required
 app.use('/api/auth',        authRouter)
 app.use('/api/auth/google', googleAuthRouter)
+app.get('/api/rooms',      roomsRouter)   // public read
 
 // Protected routes — JWT required on every request
 app.use('/api/rooms',      verifyToken, roomsRouter)
