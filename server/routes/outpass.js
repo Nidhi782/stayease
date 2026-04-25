@@ -1,7 +1,6 @@
 // ── routes/outpass.js ─────────────────────────────────────────────────────────
 import { Router } from 'express'
 import pool from '../db.js'
-import { notifyParentsOutpass } from '../utils/whatsapp.js'
 import { sendOutpassApprovedEmail } from '../utils/mailer.js'
 
 const router = Router()
@@ -79,22 +78,17 @@ router.patch('/:id/approve', async (req, res) => {
       ['Approved', admin_note || null, id]
     )
 
-    // WhatsApp both parents (non-blocking)
-    notifyParentsOutpass({ student: outpass, outpass }).catch(err =>
-      console.error('[WhatsApp] Failed:', err.message)
-    )
-
     // Email student (non-blocking)
     if (outpass.email) {
       sendOutpassApprovedEmail({
-        toEmail:    outpass.email,
-        toName:     outpass.name,
+        toEmail:     outpass.email,
+        toName:      outpass.name,
         destination: outpass.destination,
-        returnDate: outpass.return_date,
+        returnDate:  outpass.return_date,
       }).catch(err => console.error('[Email] Failed:', err.message))
     }
 
-    res.json({ message: 'Outpass approved. Parents notified via WhatsApp.' })
+    res.json({ message: 'Outpass approved.' })
   } catch (err) {
     console.error(err)
     res.status(500).json({ message: 'Failed to approve outpass.' })

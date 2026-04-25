@@ -14,6 +14,8 @@ import Complaints from './pages/Complaints'
 import AuthCallback from './pages/AuthCallback'
 import MessMenu from './pages/MessMenu'
 import Services from './pages/Services'
+import Outpass from './pages/Outpass'
+import Attendance from './pages/Attendance'
 import NotFound from './pages/NotFound'
 
 // ── Inner component so useLocation is inside BrowserRouter ──
@@ -46,6 +48,8 @@ function AnimatedRoutes() {
           }
         />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/outpass" element={<ProtectedRoute><Outpass /></ProtectedRoute>} />
+        <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

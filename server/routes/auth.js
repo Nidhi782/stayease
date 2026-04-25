@@ -37,14 +37,14 @@ router.post('/register', async (req, res) => {
 
     // Sign JWT with user info (no sensitive data in payload)
     const token = jwt.sign(
-      { id: result.insertId, name, email },
+      { id: result.insertId, name, email, role: 'student' },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     )
 
     res.status(201).json({
       token,
-      user: { id: result.insertId, name, email },
+      user: { id: result.insertId, name, email, role: 'student' },
     })
   } catch (err) {
     console.error('[register]', err)
@@ -77,14 +77,14 @@ router.post('/login', async (req, res) => {
 
     // Sign and return JWT
     const token = jwt.sign(
-      { id: user.id, name: user.name, email: user.email },
+      { id: user.id, name: user.name, email: user.email, role: user.role || 'student' },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     )
 
     res.json({
       token,
-      user: { id: user.id, name: user.name, email: user.email },
+      user: { id: user.id, name: user.name, email: user.email, role: user.role || 'student' },
     })
   } catch (err) {
     console.error('[login]', err)

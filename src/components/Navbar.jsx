@@ -101,6 +101,26 @@ function Navbar() {
         {/* ── Auth area ── */}
         {isLoggedIn ? (
           <div className="flex items-center gap-3">
+            <Link
+              to="/outpass"
+              className={`transition font-medium pb-0.5 text-sm ${
+                isActive('/outpass')
+                  ? 'text-[#1D9E75] border-b-2 border-[#1D9E75]'
+                  : 'text-[#1a1a2e] hover:text-[#1D9E75]'
+              }`}
+            >
+              Outpass
+            </Link>
+            <Link
+              to="/attendance"
+              className={`transition font-medium pb-0.5 text-sm ${
+                isActive('/attendance')
+                  ? 'text-[#1D9E75] border-b-2 border-[#1D9E75]'
+                  : 'text-[#1a1a2e] hover:text-[#1D9E75]'
+              }`}
+            >
+              Attendance
+            </Link>
             {/* Avatar bubble */}
             <div className="w-9 h-9 rounded-full bg-[#1D9E75] flex items-center justify-center text-white text-xs font-bold select-none">
               {initials}
