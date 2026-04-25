@@ -1,56 +1,73 @@
 // ── utils/whatsapp.js ─────────────────────────────────────────────────────────
-// Twilio WhatsApp utility for sending outpass parent notifications.
-// Requires: TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WHATSAPP_FROM in env.
-// TWILIO_WHATSAPP_FROM format: "whatsapp:+14155238886" (Twilio sandbox number)
+// YCloud WhatsApp REST API — no SDK needed, just HTTP calls.
+// Sign up at ycloud.com → get API Key → add your WhatsApp number
+//
+// Required env vars:
+//   YCLOUD_API_KEY        = your YCloud API key
+//   YCLOUD_WHATSAPP_FROM  = your WhatsApp Business number (e.g. 919876543210)
 
-import twilio from 'twilio'
+async function sendWhatsApp(to, message) {
+  // Normalize number: strip non-digits, ensure starts with 91 (India)
+  const normalized = to.replace(/\D/g, '')
+  const phoneNumber = normalized.startsWith('91') ? normalized : `91${normalized}`
 
-function getClient() {
-  return twilio(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_AUTH_TOKEN
-  )
+  const response = await fetch('https://api.ycloud.com/v2/whatsapp/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'X-API-Key':     process.env.YCLOUD_API_KEY || '',
+    },
+    body: JSON.stringify({
+      from: process.env.YCLOUD_WHATSAPP_FROM,
+      to:   phoneNumber,
+      type: 'text',
+      text: { body: message },
+    }),
+  })
+
+  if (!response.ok) {
+    const err = await response.text()
+    throw new Error(`YCloud API error: ${response.status} — ${err}`)
+  }
+
+  return response.json()
 }
 
-// Send WhatsApp message to both parents before outpass approval
+// ── Send outpass notification to both parents ─────────────────────────────────
 export async function notifyParentsOutpass({ student, outpass }) {
-  const client = getClient()
-  const from   = process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+14155238886'
-
-  const message = `🏫 *StayEase Hostel — Outpass Request*\n\nDear Parent,\n\n` +
+  const message =
+    `🏫 *StayEase Hostel — Outpass Request*\n\n` +
+    `Dear Parent,\n\n` +
     `Your ward *${student.name}* has requested an outpass:\n\n` +
     `📍 Destination: *${outpass.destination}*\n` +
     `📝 Reason: ${outpass.reason}\n` +
     `🗓 Departure: *${outpass.departure_date}*\n` +
     `🔙 Expected Return: *${outpass.return_date}*\n\n` +
-    `The warden has been notified. For queries, contact the hostel office.\n\n` +
+    `This is for your information. The warden will review and approve/reject.\n\n` +
     `— StayEase Management`
 
-  const parents = []
+  const sends = []
 
-  // Parent 1
   if (student.parent_phone) {
-    parents.push(
-      client.messages.create({
-        from,
-        to:   `whatsapp:+91${student.parent_phone.replace(/\D/g, '')}`,
-        body: message,
-      })
+    sends.push(
+      sendWhatsApp(student.parent_phone, message).catch(err =>
+        console.error(`[WhatsApp] Parent 1 failed (${student.parent_phone}):`, err.message)
+      )
     )
   }
 
-  // Parent 2
   if (student.parent2_phone) {
-    parents.push(
-      client.messages.create({
-        from,
-        to:   `whatsapp:+91${student.parent2_phone.replace(/\D/g, '')}`,
-        body: message,
-      })
+    sends.push(
+      sendWhatsApp(student.parent2_phone, message).catch(err =>
+        console.error(`[WhatsApp] Parent 2 failed (${student.parent2_phone}):`, err.message)
+      )
     )
   }
 
-  if (parents.length > 0) {
-    await Promise.allSettled(parents) // don't fail if one number is bad
+  if (sends.length > 0) {
+    await Promise.allSettled(sends)
+    console.log(`[WhatsApp] Notified ${sends.length} parent(s) for student: ${student.name}`)
+  } else {
+    console.warn(`[WhatsApp] No parent phone numbers found for student: ${student.name}`)
   }
 }
