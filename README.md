@@ -1,16 +1,107 @@
-# React + Vite
+# StayEase – Hostel & Student Management Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack web application to manage hostel operations including student onboarding, room allocation, and fee tracking with secure authentication and real-time data handling.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Live Demo
 
-## React Compiler
+👉 https://stayease-omega.vercel.app
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* 🔐 User Authentication (JWT-based login & signup)
+* 🔑 Google OAuth login integration
+* 🏠 Room allocation and management
+* 👨‍🎓 Student onboarding system
+* 💰 Fee tracking system
+* 📊 Dashboard for managing hostel data
+* 🔒 Protected routes for secure access
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend**
+
+* React
+* Tailwind CSS
+* Axios
+
+**Backend**
+
+* Node.js
+* Express.js
+
+**Database**
+
+* MySQL
+
+**Authentication**
+
+* JWT (JSON Web Tokens)
+* Google OAuth (Passport.js)
+
+**Deployment**
+
+* Frontend: Vercel
+* Backend & Database: Railway
+
+---
+
+## 📸 Screenshots
+
+[Dashboard](./screenshot/dashboard.png)
+
+---
+
+## 🧪 Run Locally
+
+### Clone the repository
+
+git clone https://github.com/Nidhi782/stayease.git
+
+### Install dependencies
+
+cd backend
+npm install
+
+cd ../frontend
+npm install
+
+### Setup environment variables (backend)
+
+Create `.env` file:
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=stayease
+JWT_SECRET=your_secret
+
+### Run the project
+
+Backend:
+npm start
+
+Frontend:
+npm run dev
+
+---
+
+## 📚 What I Learned
+
+* Building full-stack applications using React and Node.js
+* Implementing secure authentication using JWT
+* Integrating Google OAuth with Passport.js
+* Handling real-world deployment issues
+* Connecting MySQL database in production environment
+
+---
+
+## 👩‍💻 Author
+
+Nidhi Kumari
+B.Tech CSE
