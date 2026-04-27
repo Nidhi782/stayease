@@ -13,6 +13,28 @@ import Footer from '../components/Footer'
 
 const PAGE_SIZE = 5
 
+const ROOM_FEES = {
+  'Double AC':     145000,
+  'Double Non-AC': 130000,
+  'Triple AC':     135000,
+  'Triple Non-AC': 115000,
+}
+
+function installments(fee) {
+  const inst = Math.round(fee / 3)
+  return [
+    { label: 'Installment 1 (Day 1)',                   amount: inst },
+    { label: 'Installment 2 (Day 46)',                  amount: inst },
+    { label: 'Installment 3 (Day 91) −₹10k pre-booking', amount: inst - 10000 },
+  ]
+}
+
+function daysRemaining(dateStr) {
+  if (!dateStr) return null
+  const diff = Math.ceil((new Date(dateStr) - new Date()) / 86400000)
+  return diff
+}
+
 function Dashboard() {
   const navigate = useNavigate()
 
@@ -27,10 +49,17 @@ function Dashboard() {
 
   // ── Local UI state ───────────────────────────────────────
   const [showStudentModal, setShowStudentModal] = useState(false)
-  const [studentForm, setStudentForm]           = useState({ name: '', room: '', hostel: 'Boys', feeStatus: 'Paid' })
-  const [editingStudent, setEditingStudent]     = useState(null)
-  const [formError, setFormError]               = useState('')
-  const [deleteConfirmId, setDeleteConfirmId]   = useState(null)
+  const [studentForm, setStudentForm] = useState({
+    name: '', room: '', hostel: 'Boys', feeStatus: 'Paid',
+    parent_name: '', parent_phone: '', parent_email: '',
+    parent2_name: '', parent2_phone: '',
+    college_name: '', college_year: '1st Year',
+    session_start: '', session_end: '', total_fee: 135000, plan: '3-Installment',
+  })
+  const [editingStudent, setEditingStudent]   = useState(null)
+  const [formError, setFormError]             = useState('')
+  const [deleteConfirmId, setDeleteConfirmId] = useState(null)
+  const [expandedId, setExpandedId]           = useState(null)
 
   // Search & pagination
   const [searchQuery, setSearchQuery] = useState('')
@@ -84,14 +113,33 @@ function Dashboard() {
 
   function openAddModal() {
     setEditingStudent(null)
-    setStudentForm({ name: '', room: '', hostel: 'Boys', feeStatus: 'Paid' })
+    setStudentForm({
+      name: '', room: '', hostel: 'Boys', feeStatus: 'Paid',
+      parent_name: '', parent_phone: '', parent_email: '',
+      parent2_name: '', parent2_phone: '',
+      college_name: '', college_year: '1st Year',
+      session_start: '', session_end: '', total_fee: 135000, plan: '3-Installment',
+    })
     setFormError('')
     setShowStudentModal(true)
   }
 
   function openEditModal(student) {
     setEditingStudent(student)
-    setStudentForm({ name: student.name, room: student.room, hostel: student.hostel, feeStatus: student.feeStatus })
+    setStudentForm({
+      name: student.name, room: student.room, hostel: student.hostel, feeStatus: student.feeStatus,
+      parent_name:   student.parent_name   || '',
+      parent_phone:  student.parent_phone  || '',
+      parent_email:  student.parent_email  || '',
+      parent2_name:  student.parent2_name  || '',
+      parent2_phone: student.parent2_phone || '',
+      college_name:  student.college_name  || '',
+      college_year:  student.college_year  || '1st Year',
+      session_start: student.session_start || '',
+      session_end:   student.session_end   || '',
+      total_fee:     student.total_fee     || 135000,
+      plan:          student.plan          || '3-Installment',
+    })
     setFormError('')
     setShowStudentModal(true)
   }
@@ -114,7 +162,13 @@ function Dashboard() {
   function closeStudentModal() {
     setShowStudentModal(false)
     setEditingStudent(null)
-    setStudentForm({ name: '', room: '', hostel: 'Boys', feeStatus: 'Paid' })
+    setStudentForm({
+      name: '', room: '', hostel: 'Boys', feeStatus: 'Paid',
+      parent_name: '', parent_phone: '', parent_email: '',
+      parent2_name: '', parent2_phone: '',
+      college_name: '', college_year: '1st Year',
+      session_start: '', session_end: '', total_fee: 135000, plan: '3-Installment',
+    })
     setFormError('')
   }
 
@@ -261,36 +315,90 @@ function Dashboard() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
-                      {pagedStudents.map((student) => (
-                        <tr key={student.id} className="hover:bg-[#f0faf5] transition">
-                          <td className="py-3 font-medium text-[#1a1a2e]">{student.name}</td>
-                          <td className="py-3 text-gray-500">{student.room}</td>
-                          <td className="py-3 text-gray-500">{student.hostel}</td>
-                          <td className="py-3">
-                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${feeStyle(student.feeStatus)}`}>
-                              {student.feeStatus}
-                            </span>
-                          </td>
-                          <td className="py-3">
-                            <div className="flex gap-2 justify-end">
-                              <button
-                                onClick={() => openEditModal(student)}
-                                className="text-xs px-2.5 py-1 rounded-lg bg-[#f0faf5] text-[#1D9E75] hover:bg-[#c8f0df] font-semibold transition"
-                                title="Edit student"
-                              >
-                                ✏️ Edit
-                              </button>
-                              <button
-                                onClick={() => setDeleteConfirmId(student.id)}
-                                className="text-xs px-2.5 py-1 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 font-semibold transition"
-                                title="Delete student"
-                              >
-                                🗑️
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {pagedStudents.map((student) => {
+                        const isExpanded = expandedId === student.id
+                        const days = daysRemaining(student.session_end)
+                        const instList = installments(student.total_fee || 135000)
+                        return (
+                          <>
+                            <tr
+                              key={student.id}
+                              className="hover:bg-[#f0faf5] transition cursor-pointer"
+                              onClick={() => setExpandedId(isExpanded ? null : student.id)}
+                            >
+                              <td className="py-3 font-medium text-[#1a1a2e]">
+                                <div className="flex items-center gap-2">
+                                  <span>{student.name}</span>
+                                  {days !== null && days <= 10 && days >= 0 && (
+                                    <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-semibold">⚠️ {days}d left</span>
+                                  )}
+                                </div>
+                                {student.college_name && <p className="text-xs text-gray-400">{student.college_name} · {student.college_year}</p>}
+                              </td>
+                              <td className="py-3 text-gray-500">{student.room}</td>
+                              <td className="py-3 text-gray-500">{student.hostel}</td>
+                              <td className="py-3">
+                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${feeStyle(student.feeStatus)}`}>
+                                  {student.feeStatus}
+                                </span>
+                              </td>
+                              <td className="py-3">
+                                <div className="flex gap-2 justify-end">
+                                  <button onClick={e => { e.stopPropagation(); openEditModal(student) }}
+                                    className="text-xs px-2.5 py-1 rounded-lg bg-[#f0faf5] text-[#1D9E75] hover:bg-[#c8f0df] font-semibold transition">
+                                    ✏️ Edit
+                                  </button>
+                                  <button onClick={e => { e.stopPropagation(); setDeleteConfirmId(student.id) }}
+                                    className="text-xs px-2.5 py-1 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 font-semibold transition">
+                                    🗑️
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+
+                            {/* ── Expanded detail row ── */}
+                            {isExpanded && (
+                              <tr key={`${student.id}-detail`} className="bg-[#f0faf5]">
+                                <td colSpan={5} className="px-4 pb-4 pt-2">
+                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+
+                                    {/* Session */}
+                                    <div className="bg-white rounded-xl p-4 border border-gray-100">
+                                      <p className="font-bold text-[#1a1a2e] mb-2">📅 Session</p>
+                                      <p className="text-gray-500">Start: <span className="font-semibold text-[#1a1a2e]">{student.session_start || '—'}</span></p>
+                                      <p className="text-gray-500">End: <span className={`font-semibold ${days !== null && days <= 10 ? 'text-red-500' : 'text-[#1a1a2e]'}`}>{student.session_end || '—'}</span></p>
+                                      {days !== null && <p className={`text-xs mt-1 font-semibold ${days <= 10 ? 'text-red-500' : 'text-green-600'}`}>{days > 0 ? `${days} days remaining` : 'Session expired'}</p>}
+                                      <p className="text-gray-500 mt-1">Plan: <span className="font-semibold text-[#1a1a2e]">{student.plan || '3-Installment'}</span></p>
+                                    </div>
+
+                                    {/* Installments */}
+                                    <div className="bg-white rounded-xl p-4 border border-gray-100">
+                                      <p className="font-bold text-[#1a1a2e] mb-2">💰 Fee: ₹{(student.total_fee || 135000).toLocaleString('en-IN')}</p>
+                                      {instList.map((inst, i) => (
+                                        <div key={i} className="flex justify-between text-xs mb-1">
+                                          <span className="text-gray-500">Inst. {i + 1}</span>
+                                          <span className="font-semibold text-[#1a1a2e]">₹{inst.amount.toLocaleString('en-IN')}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+
+                                    {/* Parent + College */}
+                                    <div className="bg-white rounded-xl p-4 border border-gray-100">
+                                      <p className="font-bold text-[#1a1a2e] mb-2">👨‍👩‍👧 Parent & College</p>
+                                      {student.parent_name && <p className="text-gray-500 text-xs">Parent 1: <span className="font-semibold text-[#1a1a2e]">{student.parent_name}</span> {student.parent_phone && `· ${student.parent_phone}`}</p>}
+                                      {student.parent2_name && <p className="text-gray-500 text-xs">Parent 2: <span className="font-semibold text-[#1a1a2e]">{student.parent2_name}</span> {student.parent2_phone && `· ${student.parent2_phone}`}</p>}
+                                      {student.college_name && <p className="text-gray-500 text-xs mt-1">🏫 {student.college_name}</p>}
+                                      {student.college_year && <p className="text-gray-500 text-xs">📚 {student.college_year}</p>}
+                                      {!student.parent_name && !student.college_name && <p className="text-gray-400 text-xs">No details added yet</p>}
+                                    </div>
+
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </>
+                        )
+                      })}
                     </tbody>
                   </table>
                 </div>
