@@ -53,7 +53,7 @@ A full-stack web application to manage hostel operations including student onboa
 
 ## 📸 Screenshots
 
-[Dashboard](./screenshot/dashboard.png)
+Screenshot
 
 ---
 
