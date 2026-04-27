@@ -54,14 +54,14 @@ A full-stack web application to manage hostel operations including student onboa
 ## 📸 Screenshots
 
 ### 🔐 Login Page
-![Login](./Screenshot/Login_page.png)
+![Login](./screenshot/login_page.png)
 
 ### 📊 Dashboard
-![Dashboard](./Screenshot/Dashboard.png)
-![Dashboard](./Screenshot/Dashboard_details.png)
+![Dashboard](./screenshot/dashboard.png)
+![Dashboard](./screenshot/dashboard_details.png)
 
 ### 🏠 Rooms Page
-![Rooms](./Screenshot/rooms.png)
+![Rooms](./screenshot/rooms.png)
 
 ---
 
